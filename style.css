@@ -1,0 +1,225 @@
+:root {
+  --bg: #2a0e13;
+  --bg-2: #3d1219;
+  --gold: #f3d27a;
+  --gold-soft: #f3d27a33;
+  --cream: #fbf3e4;
+  --ink: #3a1d17;
+  --muted: #e8cfc5;
+  --door-1: #a52a3a;
+  --door-2: #1f5a43;
+  --door-3: #8a3b22;
+  --door-4: #23415f;
+  --inside: #fbf3e4;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% -10%, #5c1a24 0%, transparent 60%),
+    var(--bg);
+  color: var(--cream);
+  font: 17px/1.5 "Lora", Georgia, serif;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+header {
+  text-align: center;
+  padding: calc(28px + env(safe-area-inset-top)) 16px 8px;
+  position: relative;
+  z-index: 1;
+}
+h1 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 8vw, 3.2rem);
+  line-height: 1.1;
+  margin: 0;
+  color: var(--gold);
+  text-shadow: 0 2px 18px #00000066;
+}
+#subtitle { margin: 6px 0 0; font-style: italic; color: var(--muted); }
+.status {
+  display: inline-block;
+  margin: 14px 0 0;
+  padding: 6px 14px;
+  border: 1px solid var(--gold-soft);
+  border-radius: 99px;
+  font-size: .92rem;
+  color: var(--gold);
+}
+.status:empty { display: none; }
+
+main { max-width: 760px; margin: 0 auto; padding: 16px 16px calc(40px + env(safe-area-inset-bottom)); position: relative; z-index: 1; }
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 14px;
+  background: var(--bg-2);
+  border: 2px solid var(--gold-soft);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px #00000080, inset 0 0 0 6px #00000022;
+}
+@media (min-width: 620px) {
+  .calendar { grid-template-columns: repeat(6, 1fr); gap: 14px; padding: 20px; }
+}
+
+/* ---------- Türchen ---------- */
+.door {
+  position: relative;
+  aspect-ratio: 1 / 1.08;
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  perspective: 700px;
+  font: inherit;
+  color: inherit;
+}
+.door:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 10px; }
+
+/* Was hinter dem Türchen liegt */
+.door .inside {
+  position: absolute; inset: 0;
+  border-radius: 10px;
+  background: var(--inside);
+  color: var(--door-1);
+  display: grid; place-items: center;
+  box-shadow: inset 0 3px 10px #0000004d;
+  font-size: 1.6rem;
+}
+.door .inside small {
+  position: absolute; bottom: 6px; left: 0; right: 0;
+  font-size: .7rem; color: var(--ink); opacity: .65; text-align: center;
+}
+
+/* Die Tür selbst */
+.door .leaf {
+  position: absolute; inset: 0;
+  border-radius: 10px;
+  background: var(--c, var(--door-1));
+  background-image:
+    linear-gradient(135deg, #ffffff1f, transparent 45%),
+    radial-gradient(circle at 80% 85%, #00000033, transparent 60%);
+  border: 1.5px dashed #f3d27a88;
+  outline: 3px solid var(--c, var(--door-1));
+  outline-offset: -1px;
+  display: grid; place-items: center;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform .8s cubic-bezier(.3, .7, .2, 1), box-shadow .8s;
+  box-shadow: 0 4px 10px #00000055;
+  backface-visibility: hidden;
+}
+.door .num {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 800;
+  font-size: clamp(1.5rem, 6vw, 2.1rem);
+  color: var(--gold);
+  text-shadow: 0 2px 6px #0000004d;
+}
+.door .leaf::after {               /* kleiner Türknauf */
+  content: "";
+  position: absolute; right: 9px; top: 50%;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 1px 2px #00000080;
+}
+
+.door.open .leaf { transform: rotateY(-108deg); box-shadow: 12px 4px 18px #00000066; }
+.door.locked .leaf { filter: saturate(.75) brightness(.9); }
+.door.today .leaf { animation: glow 2.2s ease-in-out infinite; }
+@keyframes glow {
+  0%, 100% { box-shadow: 0 4px 10px #00000055, 0 0 0 0 #f3d27a00; }
+  50% { box-shadow: 0 4px 10px #00000055, 0 0 22px 4px #f3d27a99; }
+}
+.door.shake .leaf { animation: shake .45s; }
+@keyframes shake {
+  20%, 60% { transform: rotate(-4deg); }
+  40%, 80% { transform: rotate(4deg); }
+}
+
+/* ---------- Dialog ---------- */
+dialog {
+  border: 0; padding: 0;
+  width: min(520px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  border-radius: 22px;
+  background: var(--cream);
+  color: var(--ink);
+  box-shadow: 0 30px 80px #000000aa;
+}
+dialog::backdrop { background: #14060acc; backdrop-filter: blur(3px); }
+dialog[open] { animation: pop .45s cubic-bezier(.2, .9, .3, 1.25); }
+@keyframes pop { from { transform: scale(.85) translateY(20px); opacity: 0; } }
+.sheet {
+  padding: 30px 26px 22px;
+  text-align: center;
+  border: 2px solid var(--gold);
+  border-radius: 22px;
+  margin: 6px;
+  background-image: radial-gradient(circle at 50% 0%, #f3d27a40, transparent 55%);
+}
+.date {
+  margin: 0;
+  font-size: .82rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--door-1);
+}
+dialog h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.7rem;
+  margin: 6px 0 12px;
+  line-height: 1.2;
+}
+dialog h2:empty { display: none; }
+#dlgImg { max-width: 100%; border-radius: 12px; margin: 4px 0 12px; }
+.poem {
+  white-space: pre-line;
+  font-size: 1.12rem;
+  line-height: 1.7;
+  font-style: italic;
+  margin: 0 0 22px;
+}
+.close {
+  font: inherit; font-size: .95rem;
+  background: var(--door-1); color: var(--cream);
+  border: 0; border-radius: 99px;
+  padding: 10px 26px;
+  cursor: pointer;
+}
+
+/* ---------- Hinweis ---------- */
+.toast {
+  position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom));
+  transform: translate(-50%, 20px);
+  background: var(--cream); color: var(--ink);
+  padding: 10px 18px; border-radius: 99px;
+  font-size: .95rem; box-shadow: 0 8px 24px #00000080;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s, transform .25s;
+  z-index: 5; max-width: calc(100vw - 32px); text-align: center;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- Schnee ---------- */
+.snow { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.flake {
+  position: absolute; top: -10px;
+  color: #ffffffcc;
+  animation: fall linear infinite;
+}
+@keyframes fall { to { transform: translate(var(--drift), 105vh); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .snow { display: none; }
+  .door .leaf { transition: none; }
+  .door.today .leaf, .door.shake .leaf, dialog[open] { animation: none; }
+}

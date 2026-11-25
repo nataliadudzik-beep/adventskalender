@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Adventskalender</title>
+  <meta name="theme-color" content="#7a1f2b">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,500&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="snow" aria-hidden="true"></div>
+
+  <header>
+    <h1 id="title">Adventskalender</h1>
+    <p id="subtitle"></p>
+    <p id="status" class="status"></p>
+  </header>
+
+  <main>
+    <div class="calendar" id="calendar" role="list"></div>
+  </main>
+
+  <dialog id="dlg" aria-labelledby="dlgDate">
+    <div class="sheet">
+      <p class="date" id="dlgDate"></p>
+      <h2 id="dlgTitle"></h2>
+      <img id="dlgImg" alt="" hidden>
+      <p class="poem" id="dlgText"></p>
+      <form method="dialog"><button class="close">Schließen</button></form>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="inhalte.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
