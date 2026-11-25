@@ -159,7 +159,7 @@ dialog::backdrop { background: #14060acc; backdrop-filter: blur(3px); }
 dialog[open] { animation: pop .45s cubic-bezier(.2, .9, .3, 1.25); }
 @keyframes pop { from { transform: scale(.85) translateY(20px); opacity: 0; } }
 .sheet {
-  padding: 30px 26px 22px;
+  padding: 28px clamp(12px, 4vw, 26px) 22px;
   text-align: center;
   border: 2px solid var(--gold);
   border-radius: 22px;
@@ -180,10 +180,12 @@ dialog h2 {
   line-height: 1.2;
 }
 dialog h2:empty { display: none; }
+.source { margin: -6px 0 14px; font-size: .85rem; font-style: italic; color: #7a5a4f; }
+.source:empty { display: none; }
 #dlgImg { max-width: 100%; border-radius: 12px; margin: 4px 0 12px; }
 .poem {
   white-space: pre-line;
-  font-size: 1.12rem;
+  font-size: clamp(.9rem, 4.1vw, 1.12rem);
   line-height: 1.7;
   font-style: italic;
   margin: 0 0 22px;

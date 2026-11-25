@@ -87,7 +87,9 @@ function showContent(day) {
   const entry = (K.tage && K.tage[day]) || {};
   $('#dlgDate').textContent = `${day}. Dezember`;
   $('#dlgTitle').textContent = entry.titel || '';
-  $('#dlgText').textContent = (entry.text || '').trim();
+  $('#dlgSource').textContent = entry.quelle || '';
+  // Gedankenstriche nicht allein in eine neue Zeile rutschen lassen
+  $('#dlgText').textContent = (entry.text || '').trim().replace(/ ([—–])/g, '\u00a0$1');
   const img = $('#dlgImg');
   if (entry.bild) { img.src = entry.bild; img.hidden = false; } else { img.hidden = true; img.removeAttribute('src'); }
   $('#dlg').showModal();
